@@ -35,20 +35,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import es.softwareprocess.bogopicgen.*;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
-import android.view.View.OnClickListener;
 public class BogoPicGenActivity extends Activity {
 
 	Uri imageFileUri;
@@ -89,10 +86,10 @@ public class BogoPicGenActivity extends Activity {
 	//The result should be saved in newBMP
 	//Also should be reflected in the imageButton
 	private void setBogoPic() {
-		//TODO: Add your code here...
-		//TODO: Add your code here...
-		//TODO: Add your code here...
-		//TODO: Add your code here...
+		Toast.makeText(this, "Generating Photo", Toast.LENGTH_SHORT).show();
+		newBMP = BogoPicGen.generateBitmap(400, 400);
+		ImageButton ib = (ImageButton)findViewById(R.id.TakeAPhoto);
+		ib.setImageBitmap(newBMP);
 	}
 	//----------------------------------------------------------------------------------------------------
 	//----------------------------------------------------------------------------------------------------
@@ -104,12 +101,12 @@ public class BogoPicGenActivity extends Activity {
 			try {
 				if (intent.getExtras() != null) {    
 					if (okPressed) {
-						//TODO: Add your code here...
-						//TODO: Add your code here...
-						//TODO: Add your code here...
-						//TODO: Add your code here...
-						//TODO: Add your code here...
-						//TODO: Add your code here...
+						Uri uri = (Uri) intent.getExtras().get(MediaStore.EXTRA_OUTPUT);
+						OutputStream out = new FileOutputStream(
+								new File(uri.getPath()));
+						newBMP.compress(Bitmap.CompressFormat.JPEG, 75, out);
+						out.close();
+						setResult(RESULT_OK);
 						//setResult(RESULT_OK);
 					}//if (okPressed).
 					else{//cancel is pressed:
